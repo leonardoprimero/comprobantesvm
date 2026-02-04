@@ -20,6 +20,7 @@ watcher/
 dist/
 build/
 *.spec
+!installer/Api.spec
 
 # IDE
 .idea/
