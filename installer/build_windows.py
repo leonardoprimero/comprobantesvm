@@ -95,6 +95,7 @@ def main():
         "--hidden-import", "storage.sheets_storage",
         "--hidden-import", "PIL",
         "--hidden-import", "PIL._tkinter_finder",
+        "--hidden-import", "qrcode",
         "launcher.py"
     ])
 
