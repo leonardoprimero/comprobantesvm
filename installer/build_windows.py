@@ -100,62 +100,14 @@ def main():
         "launcher.py"
     ])
 
-    # Build API (onefile)
+    # Build API using spec file (more reliable for local modules)
+    spec_file = ROOT / "installer" / "Api.spec"
     run([
         sys.executable, "-m", "PyInstaller",
         "--noconfirm",
-        "--onefile",
         "--workpath", str(BUILD / "pyinstaller"),
         "--distpath", str(DIST),
-        "--name", "Api",
-        "--paths", ".",  # Include project root for local modules
-        # Hidden imports for all project modules
-        "--hidden-import", "app",
-        "--hidden-import", "app.main",
-        "--hidden-import", "app.extractor",
-        "--hidden-import", "app.paths",
-        "--hidden-import", "app.license",
-        "--hidden-import", "app.config",
-        "--hidden-import", "app.validator",
-        "--hidden-import", "app.sheets",
-        "--hidden-import", "storage",
-        "--hidden-import", "storage.storage_manager",
-        "--hidden-import", "storage.excel_storage",
-        "--hidden-import", "storage.sheets_storage",
-        "--hidden-import", "billing",
-        "--hidden-import", "billing.cost_tracker",
-        "--hidden-import", "watcher",
-        "--hidden-import", "watcher.folder_watcher",
-        # External dependencies
-        "--hidden-import", "uvicorn",
-        "--hidden-import", "uvicorn.logging",
-        "--hidden-import", "uvicorn.loops",
-        "--hidden-import", "uvicorn.loops.auto",
-        "--hidden-import", "uvicorn.protocols",
-        "--hidden-import", "uvicorn.protocols.http",
-        "--hidden-import", "uvicorn.protocols.http.auto",
-        "--hidden-import", "uvicorn.protocols.websockets",
-        "--hidden-import", "uvicorn.protocols.websockets.auto",
-        "--hidden-import", "uvicorn.lifespan",
-        "--hidden-import", "uvicorn.lifespan.on",
-        "--hidden-import", "fastapi",
-        "--hidden-import", "starlette",
-        "--hidden-import", "pydantic",
-        "--hidden-import", "openai",
-        "--hidden-import", "httpx",
-        "--hidden-import", "pdf2image",
-        "--hidden-import", "openpyxl",
-        "--hidden-import", "gspread",
-        "--hidden-import", "PIL",
-        "--collect-all", "uvicorn",
-        "--collect-all", "fastapi",
-        "--collect-all", "starlette",
-        # Force collect all local project modules
-        "--collect-submodules", "app",
-        "--collect-submodules", "storage",
-        "--collect-submodules", "billing",
-        "--collect-submodules", "watcher",
-        "run.py"
+        str(spec_file)
     ])
 
     launcher_dir = DIST / "Launcher"
