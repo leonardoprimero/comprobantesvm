@@ -890,9 +890,6 @@ class SystemLauncher(ctk.CTk):
             text_color=COLOR_MUTED
         ).pack(anchor="w", padx=16, pady=(0, 12))
 
-    def open_about_dialog(self):
-        AboutDialog(self)
-
         fuentes = self.create_card(self.scroll_config, "Fuentes de datos")
         fuentes.pack(fill="x", pady=(0, 12))
         ctk.CTkLabel(
@@ -1160,6 +1157,9 @@ class SystemLauncher(ctk.CTk):
         )
         self.txt_logs.pack(padx=12, pady=12, fill="both", expand=True)
         self.txt_logs.configure(state="disabled")
+
+    def open_about_dialog(self):
+        AboutDialog(self)
 
     def log_message(self, message):
         timestamp = datetime.now().strftime("%H:%M:%S")
