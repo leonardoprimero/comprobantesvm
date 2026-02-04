@@ -150,6 +150,11 @@ def main():
         "--collect-all", "uvicorn",
         "--collect-all", "fastapi",
         "--collect-all", "starlette",
+        # Force collect all local project modules
+        "--collect-submodules", "app",
+        "--collect-submodules", "storage",
+        "--collect-submodules", "billing",
+        "--collect-submodules", "watcher",
         "run.py"
     ])
 
