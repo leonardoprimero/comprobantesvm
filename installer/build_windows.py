@@ -102,7 +102,7 @@ def main():
     ])
 
     launcher_dir = DIST / "Launcher"
-    api_exe = DIST / "Api" / "Api.exe"
+    api_exe = DIST / "Api.exe"
     if api_exe.exists():
         shutil.copy2(api_exe, launcher_dir / "Api.exe")
     else:
