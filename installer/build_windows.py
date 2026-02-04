@@ -88,6 +88,13 @@ def main():
         "--distpath", str(DIST),
         "--name", "Launcher",
         "--collect-all", "customtkinter",
+        "--hidden-import", "app",
+        "--hidden-import", "app.paths",
+        "--hidden-import", "app.license",
+        "--hidden-import", "storage",
+        "--hidden-import", "storage.sheets_storage",
+        "--hidden-import", "PIL",
+        "--hidden-import", "PIL._tkinter_finder",
         "launcher.py"
     ])
 
