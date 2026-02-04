@@ -105,6 +105,8 @@ def main():
     api_exe = DIST / "Api" / "Api.exe"
     if api_exe.exists():
         shutil.copy2(api_exe, launcher_dir / "Api.exe")
+    else:
+        raise FileNotFoundError(f"Api.exe NO fue generado en: {api_exe}")
 
     # Config example
     config_example = ROOT / "config.example.json"
