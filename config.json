@@ -1,0 +1,22 @@
+{
+    "client_id": "",
+    "license_url": "",
+    "openai_api_key": "",
+    "fuentes": {
+        "whatsapp_enabled": true,
+        "carpeta_enabled": false,
+        "carpeta_ruta": ""
+    },
+    "storage": {
+        "excel_enabled": true,
+        "excel_path": "/Users/leguillo/Downloads/comprobantes.xlsx",
+        "sheets_enabled": false,
+        "sheets_id": "",
+        "sheets_name": "Hoja 1"
+    },
+    "billing": {
+        "markup": 2.0,
+        "mostrar_costos": true
+    },
+    "google_credentials_path": ""
+}

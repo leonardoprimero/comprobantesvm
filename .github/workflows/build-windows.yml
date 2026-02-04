@@ -1,0 +1,75 @@
+name: Build Windows Installer
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["main"]
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pyinstaller
+
+      - name: Install bot dependencies
+        working-directory: bot
+        run: npm ci
+
+      - name: Download Node portable
+        shell: pwsh
+        run: |
+          $nodeVersion = "v20.11.1"
+          $zip = "node-$nodeVersion-win-x64.zip"
+          $tempZip = "$env:RUNNER_TEMP\$zip"
+          Invoke-WebRequest -Uri "https://nodejs.org/dist/$nodeVersion/$zip" -OutFile $tempZip
+          Expand-Archive -Path $tempZip -DestinationPath "$env:RUNNER_TEMP\node"
+          New-Item -ItemType Directory -Force -Path build\node | Out-Null
+          Copy-Item "$env:RUNNER_TEMP\node\node-$nodeVersion-win-x64\*" -Destination build\node -Recurse
+
+      - name: Download Poppler
+        shell: pwsh
+        run: |
+          $popplerUrl = "https://github.com/oschwartz10612/poppler-windows/releases/download/v23.08.0-0/Release-23.08.0-0.zip"
+          $zip = "$env:RUNNER_TEMP\poppler.zip"
+          Invoke-WebRequest -Uri $popplerUrl -OutFile $zip
+          Expand-Archive -Path $zip -DestinationPath build\poppler
+          $inner = Get-ChildItem build\poppler | Where-Object { $_.PSIsContainer } | Select-Object -First 1
+          if ($inner) {
+            Move-Item "$($inner.FullName)\*" build\poppler -Force
+            Remove-Item $inner.FullName -Recurse -Force
+          }
+
+      - name: Build package
+        run: python installer\build_windows.py
+
+      - name: Install Inno Setup
+        run: choco install innosetup --no-progress -y
+
+      - name: Build installer
+        shell: pwsh
+        run: |
+          & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" installer\installer.iss
+
+      - name: Upload installer artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: SistemaComprobantes-Installer
+          path: dist\installer\*.exe

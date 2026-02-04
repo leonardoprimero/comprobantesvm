@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.pyc
+venv/
+.env
+
+# Node
+node_modules/
+npm-debug.log
+
+# App Data & Cache
+.wwebjs_auth/
+.wwebjs_cache/
+temp_fix_check/
+temp_extract/
+tools/
+watcher/
+
+# Build
+dist/
+build/
+*.spec
+
+# IDE
+.idea/
+.vscode/
+
+# System
+Thumbs.db
+Desktop.ini

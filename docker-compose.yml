@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:
+  receipt-api:
+    build: .
+    container_name: receipt-api
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./google_credentials.json:/app/google_credentials.json:ro
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - GOOGLE_CREDENTIALS_PATH=/app/google_credentials.json
+      - GOOGLE_SHEET_ID=${GOOGLE_SHEET_ID}
+      - GOOGLE_SHEET_NAME=${GOOGLE_SHEET_NAME}
+    restart: unless-stopped

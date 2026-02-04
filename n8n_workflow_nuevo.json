@@ -1,0 +1,148 @@
+{
+  "name": "transferencias_fucho_v2",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "pdf",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [-300, 0],
+      "id": "webhook-1",
+      "name": "Webhook",
+      "webhookId": "18bbe62d-97c7-40d8-95c8-82764d165513"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:8000/process-receipt/",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"file_base64\": \"{{ $json.body.data }}\",\n  \"sender_phone\": \"{{ $json.body.from }}\",\n  \"timestamp\": \"{{ $json.body.fecha }}\",\n  \"mime_type\": \"{{ $json.body.mimetype || 'image/jpeg' }}\",\n  \"texto_completo\": \"{{ $json.body.textoCompleto || '' }}\"\n}",
+        "options": {
+          "timeout": 60000
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [0, 0],
+      "id": "api-python",
+      "name": "Procesar con API Python"
+    },
+    {
+      "parameters": {
+        "content": "## Nuevo Workflow Simplificado\n\nEste workflow usa la nueva API Python con GPT-4o Vision.\n\n**Ventajas:**\n- GPT-4o analiza la imagen directamente\n- Validación automática de CBU/CUIL\n- Identificación de cuentas destino\n- Mejor precisión en extracción\n\n**La API ya guarda en Google Sheets automáticamente.**",
+        "height": 300,
+        "width": 400,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [-400, -200],
+      "typeVersion": 1,
+      "id": "nota-1",
+      "name": "Nota"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "cond-success",
+              "leftValue": "={{ $json.success }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [300, 0],
+      "id": "check-success",
+      "name": "Éxito?"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Respuesta exitosa\nconst data = $json.data || {};\nconst message = $json.message || 'Procesado';\nconst confianza = $json.confianza || 0;\nconst requiere_revision = $json.requiere_revision || false;\n\nreturn {\n  json: {\n    success: true,\n    message: message,\n    monto: data.monto_numerico,\n    emisor: data.emisor_nombre,\n    banco: data.banco_emisor,\n    confianza: confianza,\n    requiere_revision: requiere_revision,\n    cuenta_destino: $json.cuenta_destino\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [500, -100],
+      "id": "respuesta-ok",
+      "name": "Respuesta OK"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Respuesta de error\nconst message = $json.message || 'Error desconocido';\n\nreturn {\n  json: {\n    success: false,\n    error: message,\n    requiere_revision: true\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [500, 100],
+      "id": "respuesta-error",
+      "name": "Respuesta Error"
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Procesar con API Python",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Procesar con API Python": {
+      "main": [
+        [
+          {
+            "node": "Éxito?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Éxito?": {
+      "main": [
+        [
+          {
+            "node": "Respuesta OK",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respuesta Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "tags": []
+}

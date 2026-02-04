@@ -1,0 +1,91 @@
+
+========================================================================================================================
+🔍 PROCESANDO 38 COMPROBANTES (Imágenes + PDFs)
+   Hora de inicio: 22/01/2026 16:52:42
+========================================================================================================================
+
+[01/38] Procesando:  Image 2026-01-14 at 23.39.01.jpeg... ✅ $650,000
+[02/38] Procesando: 11012026_nueva_transferencia copia.pdf... ✅ $500,000
+[03/38] Procesando: Comprobante de transferencia copia.pdf... ✅ $1,000,000
+[04/38] Procesando: Comprobante_1768312279027 copia.pdf... ✅ $1,000,000
+[05/38] Procesando: Comprobaxdfhnte.pdf... ✅ $250,000
+[06/38] Procesando: WhatApp Image 2026-01-14 at 23.40.40.jpeg... ✅ $340,000
+[07/38] Procesando: Whatp Image 2026-01-15 at 00.04.25.jpeg... ✅ $909,000
+[08/38] Procesando: WhatsAfpp Image 2026-01-22 at 16.21.44.jpeg... ✅ $41,500
+[09/38] Procesando: WhatsAp Image 2026-01-15 at 00.04.22.jpeg... ✅ $220,000
+[10/38] Procesando: WhatsAphp Image 2026-01-22 at 16.15.28.jpeg... ✅ $11,300
+[11/38] Procesando: WhatsApp Iage 2026-01-14 at 23.39.01.jpeg... ✅ $686,000
+[12/38] Procesando: WhatsApp Imae 2026-01-15 at 00.04.25.jpeg... ✅ $583,000
+[13/38] Procesando: WhatsApp Imag 2026-01-14 at 23.39.01.jpeg... ✅ $1,092,000
+[14/38] Procesando: WhatsApp Image 026-01-14 at 23.39.02.jpeg... ✅ $600,800
+[15/38] Procesando: WhatsApp Image 201-15 at 00.04.25.jpeg... ✅ $1,402,500
+[16/38] Procesando: WhatsApp Image 2026-0-14 at 23.40.37.jpeg... ✅ $204,000
+[17/38] Procesando: WhatsApp Image 2026-0-14 at 23.40.40.jpeg... ✅ $700,000
+[18/38] Procesando: WhatsApp Image 2026-01-1 at 00.04.26.jpeg... ✅ $181,800
+[19/38] Procesando: WhatsApp Image 2026-01-14 at 23.38.41.jpeg... ✅ $102,200
+[20/38] Procesando: WhatsApp Image 2026-01-14 at 23.38.42.jpeg... ✅ $115,000
+[21/38] Procesando: WhatsApp Image 2026-01-14 at 23.39.01.jpeg... ✅ $100,000
+[22/38] Procesando: WhatsApp Image 2026-01-15 04.25.jpeg... ✅ $1,167,000
+[23/38] Procesando: WhatsApp Image 2026-01-15 t 00.02.44.jpeg... ✅ $1,000,000
+[24/38] Procesando: WhatsApp Image 2026-01-22 at 16.15.27.jpeg... ✅ $176,500
+[25/38] Procesando: WhatsApp Image 2026-01-22 at 16.25.01.jpeg... ✅ $700,000
+[26/38] Procesando: WhatsApp Image 2026-051-22 at 16.15.27.jpeg... ✅ $119,400
+[27/38] Procesando: WhatsApp Image 202601-15 at 00.04.23.jpeg... ✅ $500,000
+[28/38] Procesando: WhatsApp Image 2026h-01-22 at 16.23.36.jpeg... ✅ $700,000
+[29/38] Procesando: WhatsApp Image 206-01-15 at 00.04.22.jpeg... ✅ $570,000
+[30/38] Procesando: WhatsApp Image 206-01-15 at 00.04.24.jpeg... ✅ $400,000
+[31/38] Procesando: WhatsApp Imagghe 2026-01-22 at 16.15.27.jpeg... ✅ $41,500
+[32/38] Procesando: WhatsApp Imaghe 2026-01-22 at 16.23.36.jpeg... ✅ $507,500
+[33/38] Procesando: WhatsApp Imgage 2026-01-22 at 16.15.27.jpeg... ✅ $40,000
+[34/38] Procesando: WhatsApp Imge 2026-01-14 at 23.40.37.jpeg... ✅ $334,560
+[35/38] Procesando: Whatspp Image 2026-01-14 at 23.40.38.jpeg... ✅ $1,000,000
+[36/38] Procesando: WhtsApp Image 2026-01-14 at 23.40.40.jpeg... ✅ $1,000,000
+[37/38] Procesando: WhtsApp Image 2026-01-14 at 23.40.41.jpeg... ✅ $939,000
+[38/38] Procesando: hatsApp Image 2026-01-15 at 00.04.22.jpeg... ✅ $306,000
+
+========================================================================================================================
+📊 RESULTADOS: 38/38 procesados correctamente
+========================================================================================================================
+  # TIPO           MONTO FECHA/HORA           EMISOR                         BANCO               
+------------------------------------------------------------------------------------------------------------------------
+ 26 IMG  $      119,400                                                                         
+ 30 IMG  $      400,000 08/01/2026 09:07     Karen Soledad Miño             Ualá                
+ 12 IMG  $      583,000 08/01/2026 11:00                                    Banco Santander     
+ 22 IMG  $    1,167,000 08/01/2026 12:11:33  GARNICA FERNANDEZ, KEVIN SANDR Banco Santa Fe      
+  7 IMG  $      909,000 08/01/2026 21:49     AGUIRRE MICAELA BELEN          BBVA Argentina      
+ 15 IMG  $    1,402,500 09/01/2026                                          Banco Santander     
+ 37 IMG  $      939,000 09/01/2026 17:24     Diego Cristian Vasquez         Brubank             
+ 18 IMG  $      181,800 09/01/26 10:45       Edgardo Daniel Velazquez       Banco Supervielle   
+ 36 IMG  $    1,000,000 10/01/2026 12:21     Jerez Subia, Pablo Edwin       Personal Pay        
+ 17 IMG  $      700,000 11/01/2026 19:40     Lizeth Elba Diaz Magne         Cuenta DNI          
+  2 PDF  $      500,000 11/01/2026 19:44:01  LIZETH ELBA,DIAZ,MAGNE         Banco Provincia     
+ 16 IMG  $      204,000 12/01/2026 09:14                                                        
+  6 IMG  $      340,000 12/01/2026 12:20:41                                                     
+ 34 IMG  $      334,560 12/01/2026 17:20     Guillermo Javier Bo            Naranja X           
+  4 PDF  $    1,000,000 13/01/2026 10:47                                    Naranja X           
+ 35 IMG  $    1,000,000 13/01/2026 12:03     MARCOS ISAEL IBARRA MARTINEZ   Brubank             
+  3 PDF  $    1,000,000 13/01/2026 13:16     Cristian Cardozo               Ualá                
+ 38 IMG  $      306,000 13/01/2026 23:38                                                        
+ 20 IMG  $      115,000 14/01/2026 11:55     Andrea Beatriz Maldonado Monta Mercado Pago        
+ 19 IMG  $      102,200 14/01/2026 12:05     Jesica Lorena Vazquez          Mercado Pago        
+ 21 IMG  $      100,000 14/01/2026 12:24                                    Banco Macro         
+ 29 IMG  $      570,000 14/01/2026 13:08     Claudio Javier Pucheta         YPF                 
+  1 IMG  $      650,000 14/01/2026 14:29     Leila Isabel Vasquez           Mercado Pago        
+ 11 IMG  $      686,000 14/01/2026 14:30     Leila Isabel Vasquez           Mercado Pago        
+ 13 IMG  $    1,092,000 14/01/2026 14:33     Jerez Subia, Pablo Edwin       Personal Pay        
+ 14 IMG  $      600,800 14/01/2026 15:14     Jesica Lorena Vazquez          Mercado Pago        
+ 27 IMG  $      500,000 14/01/2026 19:50:41                                 BNA+                
+ 23 IMG  $    1,000,000 14/01/2026 21:50     JUAN GABRIEL CISNEROS AGUIRRE  Banco Galicia       
+  9 IMG  $      220,000 14/01/26 20:30                                      Banco Macro         
+ 24 IMG  $      176,500 21/01/2026 00:20     Celeste Anahi Rojas Vazquez    Naranja X           
+  8 IMG  $       41,500 21/01/2026 00:59:22  Malena Abril Petinato          Cuenta DNI          
+ 31 IMG  $       41,500 21/01/2026 00:59:22  Malena Abril Petinato          Cuenta DNI          
+ 33 IMG  $       40,000 21/01/2026 01:04     Sofia Noelia Lopez Lema        Mercado Pago        
+ 10 IMG  $       11,300 21/01/2026 02:25     Avril Melisa Gordillo          Naranja X           
+  5 PDF  $      250,000 21/01/2026 08:33                                    Brubank             
+ 25 IMG  $      700,000 21/01/2026 10:48                                                        
+ 32 IMG  $      507,500 21/01/2026 16:49     Juan Mario Gonzalez Mora       Banco Coinag S.A.   
+ 28 IMG  $      700,000 21/01/2026 16:54     Juan Mario Gonzalez Mora       Banco Coinag S.A.   
+------------------------------------------------------------------------------------------------------------------------
+   TOTAL $   20,190,560
+========================================================================================================================

@@ -1,0 +1,13 @@
+{
+    "status": "active",
+    "clients": {
+        "cliente_prueba": {
+            "active": true,
+            "message": "Licencia activa."
+        },
+        "cliente_bloqueado": {
+            "active": false,
+            "message": "❌ Suspendido por falta de pago. Contacte al proveedor."
+        }
+    }
+}

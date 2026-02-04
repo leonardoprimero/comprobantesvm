@@ -1,0 +1,296 @@
+
+🔍 Encontrados 28 comprobantes
+
+============================================================
+📄 Procesando: WhatsApp Image 2026-01-14 at 23.38.42.jpeg
+============================================================
+✅ ÉXITO - Confianza: 95%
+   💰 Monto: $115,000.00
+   👤 Emisor: Andrea Beatriz Maldonado Montano
+   🏦 Banco: Mercado Pago
+   📋 CBU: 0000003100038972584266
+   🆔 CUIL: 27-37933350-3
+   📅 Fecha: 14/01/2026 11:55
+
+============================================================
+📄 Procesando: WhatsAp Image 2026-01-15 at 00.04.22.jpeg
+============================================================
+✅ ÉXITO - Confianza: 95%
+   💰 Monto: $220,000.00
+   👤 Emisor: 
+   🏦 Banco: Banco Macro
+   📋 CBU: 4120095184104775
+   🆔 CUIL: 
+   📅 Fecha: 14/01/2026 20:30
+
+============================================================
+📄 Procesando: Whatspp Image 2026-01-14 at 23.40.38.jpeg
+============================================================
+✅ ÉXITO - Confianza: 95%
+   💰 Monto: $1,000,000.00
+   👤 Emisor: MARCOS ISAEL IBARRA MARTINEZ
+   🏦 Banco: Brubank
+   📋 CBU: 
+   🆔 CUIL: 20-94454786-0
+   📅 Fecha: 13/01/2026 12:03
+
+============================================================
+📄 Procesando: WhtsApp Image 2026-01-14 at 23.40.40.jpeg
+============================================================
+✅ ÉXITO - Confianza: 95%
+   💰 Monto: $1,000,000.00
+   👤 Emisor: Jerez Subia, Pablo Edwin
+   🏦 Banco: Personal Pay
+   📋 CBU: 
+   🆔 CUIL: 20-95548998-6
+   📅 Fecha: 10/01/2026 12:21
+
+============================================================
+📄 Procesando: WhtsApp Image 2026-01-14 at 23.40.41.jpeg
+============================================================
+✅ ÉXITO - Confianza: 95%
+   💰 Monto: $939,000.00
+   👤 Emisor: Diego Cristian Vasquez
+   🏦 Banco: Brubank
+   📋 CBU: 
+   🆔 CUIL: 20-30460043-9
+   📅 Fecha: 09/01/2026 17:24
+
+============================================================
+📄 Procesando: Comprobante_1768312279027 copia.pdf
+============================================================
+❌ ERROR: Error code: 400 - {'error': {'message': 'Invalid MIME type. Only image types are supported.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_image_format'}}
+
+============================================================
+📄 Procesando: WhatsApp Imge 2026-01-14 at 23.40.37.jpeg
+============================================================
+✅ ÉXITO - Confianza: 95%
+   💰 Monto: $334,560.00
+   👤 Emisor: Guillermo Javier Bo
+   🏦 Banco: Naranja X
+   📋 CBU: 4530000800010435872648
+   🆔 CUIL: 20-24671652-9
+   📅 Fecha: 12/01/2026 17:20
+
+============================================================
+📄 Procesando: Comprobante de transferencia copia.pdf
+============================================================
+❌ ERROR: Error code: 400 - {'error': {'message': 'Invalid MIME type. Only image types are supported.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_image_format'}}
+
+============================================================
+📄 Procesando: WhatsApp Image 2026-0-14 at 23.40.37.jpeg
+============================================================
+✅ ÉXITO - Confianza: 95%
+   💰 Monto: $204,000.00
+   👤 Emisor: 
+   🏦 Banco: 
+   📋 CBU: 
+   🆔 CUIL: 
+   📅 Fecha: 12/01/2026 09:14
+
+============================================================
+📄 Procesando: WhatsApp Image 206-01-15 at 00.04.24.jpeg
+============================================================
+✅ ÉXITO - Confianza: 95%
+   💰 Monto: $400,000.00
+   👤 Emisor: Karen Soledad Miño
+   🏦 Banco: Ualá
+   📋 CBU: 
+   🆔 CUIL: 
+   📅 Fecha: 08/01/2026 09:07
+
+============================================================
+📄 Procesando: WhatsApp Image 2026-0-14 at 23.40.40.jpeg
+============================================================
+✅ ÉXITO - Confianza: 95%
+   💰 Monto: $700,000.00
+   👤 Emisor: Lizeth Elba Diaz Magne
+   🏦 Banco: Cuenta DNI (Banco Provincia)
+   📋 CBU: 
+   🆔 CUIL: 
+   📅 Fecha: 11/01/2026 19:40
+
+============================================================
+📄 Procesando: WhatsApp Image 2026-01-1 at 00.04.26.jpeg
+============================================================
+✅ ÉXITO - Confianza: 95%
+   💰 Monto: $181,800.00
+   👤 Emisor: Edgardo Daniel Velazquez
+   🏦 Banco: Supervielle
+   📋 CBU: 0270261420003508780061
+   🆔 CUIL: 20-32581686-5
+   📅 Fecha: 09/01/2026 10:45
+
+============================================================
+📄 Procesando: WhatsApp Image 201-15 at 00.04.25.jpeg
+============================================================
+✅ ÉXITO - Confianza: 95%
+   💰 Monto: $1,402,500.00
+   👤 Emisor: 
+   🏦 Banco: Banco Santander
+   📋 CBU: 
+   🆔 CUIL: 
+   📅 Fecha: 09/01/2026
+
+============================================================
+📄 Procesando: hatsApp Image 2026-01-15 at 00.04.22.jpeg
+============================================================
+✅ ÉXITO - Confianza: 95%
+   💰 Monto: $306,000.00
+   👤 Emisor: 
+   🏦 Banco: 
+   📋 CBU: 
+   🆔 CUIL: 
+   📅 Fecha: 13/01/2026 23:38
+
+============================================================
+📄 Procesando: WhatApp Image 2026-01-14 at 23.40.40.jpeg
+============================================================
+✅ ÉXITO - Confianza: 90%
+   💰 Monto: $340,000.00
+   👤 Emisor: 
+   🏦 Banco: 
+   📋 CBU: 
+   🆔 CUIL: 
+   📅 Fecha: 12/01/2026 12:20:41
+
+============================================================
+📄 Procesando:  Image 2026-01-14 at 23.39.01.jpeg
+============================================================
+✅ ÉXITO - Confianza: 95%
+   💰 Monto: $650,000.00
+   👤 Emisor: Leila Isabel Vasquez
+   🏦 Banco: Mercado Pago
+   📋 CBU: 0000003100037033441298
+   🆔 CUIL: 27-42380798-4
+   📅 Fecha: 14/01/2026 14:29
+
+============================================================
+📄 Procesando: WhatsApp Imag 2026-01-14 at 23.39.01.jpeg
+============================================================
+✅ ÉXITO - Confianza: 95%
+   💰 Monto: $1,092,000.00
+   👤 Emisor: Jerez Subia, Pablo Edwin
+   🏦 Banco: Personal Pay
+   📋 CBU: 
+   🆔 CUIL: 20-95548998-6
+   📅 Fecha: 14/01/2026 14:33
+
+============================================================
+📄 Procesando: WhatsApp Image 206-01-15 at 00.04.22.jpeg
+============================================================
+✅ ÉXITO - Confianza: 95%
+   💰 Monto: $570,000.00
+   👤 Emisor: Claudio Javier Pucheta
+   🏦 Banco: 
+   📋 CBU: 
+   🆔 CUIL: 
+   📅 Fecha: 14/01/2026 13:08
+
+============================================================
+📄 Procesando: Whatp Image 2026-01-15 at 00.04.25.jpeg
+============================================================
+✅ ÉXITO - Confianza: 95%
+   💰 Monto: $909,000.00
+   👤 Emisor: AGUIRRE MICAELA BELEN
+   🏦 Banco: BBVA
+   📋 CBU: 
+   🆔 CUIL: 
+   📅 Fecha: 08/01/2026 21:49
+
+============================================================
+📄 Procesando: WhatsApp Image 026-01-14 at 23.39.02.jpeg
+============================================================
+✅ ÉXITO - Confianza: 95%
+   💰 Monto: $600,800.00
+   👤 Emisor: Jesica Lorena Vazquez
+   🏦 Banco: Mercado Pago
+   📋 CBU: 0000003100092610570259
+   🆔 CUIL: 27-41340391-5
+   📅 Fecha: 14/01/2026 15:14
+
+============================================================
+📄 Procesando: 11012026_nueva_transferencia copia.pdf
+============================================================
+❌ ERROR: Error code: 400 - {'error': {'message': 'Invalid MIME type. Only image types are supported.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_image_format'}}
+
+============================================================
+📄 Procesando: WhatsApp Image 2026-01-15 t 00.02.44.jpeg
+============================================================
+✅ ÉXITO - Confianza: 95%
+   💰 Monto: $1,000,000.00
+   👤 Emisor: JUAN GABRIEL CISNEROS AGUIRRE
+   🏦 Banco: Banco De Galicia S.A.U
+   📋 CBU: 
+   🆔 CUIL: 20-94618194-4
+   📅 Fecha: 14/01/2026 21:50
+
+============================================================
+📄 Procesando: WhatsApp Imae 2026-01-15 at 00.04.25.jpeg
+============================================================
+✅ ÉXITO - Confianza: 95%
+   💰 Monto: $583,000.00
+   👤 Emisor: 
+   🏦 Banco: Banco Santander
+   📋 CBU: 
+   🆔 CUIL: 
+   📅 Fecha: 08/01/2026 11:00
+
+============================================================
+📄 Procesando: WhatsApp Image 2026-01-15 04.25.jpeg
+============================================================
+✅ ÉXITO - Confianza: 95%
+   💰 Monto: $1,167,000.00
+   👤 Emisor: Garnica Fernandez, Kevin Sandro
+   🏦 Banco: Banco Santa Fe
+   📋 CBU: 
+   🆔 CUIL: 20950614995
+   📅 Fecha: 08/01/2026 12:11:33
+
+============================================================
+📄 Procesando: WhatsApp Iage 2026-01-14 at 23.39.01.jpeg
+============================================================
+✅ ÉXITO - Confianza: 95%
+   💰 Monto: $686,000.00
+   👤 Emisor: Leila Isabel Vasquez
+   🏦 Banco: Mercado Pago
+   📋 CBU: 0000003100037033441298
+   🆔 CUIL: 27-42380798-4
+   📅 Fecha: 14/01/2026 14:30
+
+============================================================
+📄 Procesando: WhatsApp Image 202601-15 at 00.04.23.jpeg
+============================================================
+✅ ÉXITO - Confianza: 95%
+   💰 Monto: $500,000.00
+   👤 Emisor: 
+   🏦 Banco: 
+   📋 CBU: 
+   🆔 CUIL: 
+   📅 Fecha: 14/01/2026 19:50:41
+
+============================================================
+📄 Procesando: WhatsApp Image 2026-01-14 at 23.39.01.jpeg
+============================================================
+✅ ÉXITO - Confianza: 95%
+   💰 Monto: $100,000.00
+   👤 Emisor: 
+   🏦 Banco: Banco Macro
+   📋 CBU: 310709400851139
+   🆔 CUIL: 
+   📅 Fecha: 14/01/2026 12:24
+
+============================================================
+📄 Procesando: WhatsApp Image 2026-01-14 at 23.38.41.jpeg
+============================================================
+✅ ÉXITO - Confianza: 95%
+   💰 Monto: $102,200.00
+   👤 Emisor: Jesica Lorena Vazquez
+   🏦 Banco: Mercado Pago
+   📋 CBU: 0000003100092610570259
+   🆔 CUIL: 27-41340391-5
+   📅 Fecha: 14/01/2026 12:05
+
+============================================================
+📊 RESUMEN: 25/28 procesados correctamente
+============================================================
