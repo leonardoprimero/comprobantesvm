@@ -87,6 +87,7 @@ def main():
         "--workpath", str(BUILD / "pyinstaller"),
         "--distpath", str(DIST),
         "--name", "Launcher",
+        "--paths", ".",  # Include project root for local modules
         "--collect-all", "customtkinter",
         "--hidden-import", "app",
         "--hidden-import", "app.paths",
@@ -107,6 +108,7 @@ def main():
         "--workpath", str(BUILD / "pyinstaller"),
         "--distpath", str(DIST),
         "--name", "Api",
+        "--paths", ".",  # Include project root for local modules
         # Hidden imports for all project modules
         "--hidden-import", "app",
         "--hidden-import", "app.main",
