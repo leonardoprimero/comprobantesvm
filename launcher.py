@@ -1212,6 +1212,8 @@ class SystemLauncher(ctk.CTk):
             if sys.platform == "win32":
                 creation_flags = 0x08000000  # CREATE_NO_WINDOW
 
+            self.log_message(f"🚀 Iniciando API con: {' '.join(cmd)}")
+            
             self.process_api = subprocess.Popen(cmd, 
                                               stdout=subprocess.PIPE, 
                                               stderr=subprocess.PIPE,
@@ -1226,7 +1228,25 @@ class SystemLauncher(ctk.CTk):
             threading.Thread(target=self.read_process_output, args=(self.process_api, "API"), daemon=True).start()
             threading.Thread(target=self.read_process_error_output, args=(self.process_api, "API"), daemon=True).start()
             
-            self.log_message("Motor de IA iniciado.")
+            # NUEVO: Esperar un poco y verificar que el proceso siga vivo
+            time.sleep(2)
+            if self.process_api.poll() is not None:
+                # El proceso murió, intentar leer el error
+                exit_code = self.process_api.returncode
+                stderr_output = ""
+                try:
+                    stderr_output = self.process_api.stderr.read()
+                except:
+                    pass
+                error_msg = f"❌ API crasheó al iniciar (exit code: {exit_code})"
+                if stderr_output:
+                    error_msg += f"\nError: {stderr_output[:500]}"
+                self.log_message(error_msg)
+                messagebox.showerror("Error de API", error_msg)
+                self.stop_system()
+                return
+            
+            self.log_message("✅ Motor de IA iniciado correctamente.")
             self.set_system_status("Ejecutando", COLOR_SUCCESS)
             
             # Iniciar Bot WhatsApp si está habilitado
@@ -1236,7 +1256,8 @@ class SystemLauncher(ctk.CTk):
                     self.btn_restart_qr.configure(state="normal")
                 
         except Exception as e:
-            self.log_message(f"Error al iniciar: {e}")
+            self.log_message(f"❌ Error al iniciar: {e}")
+            messagebox.showerror("Error Crítico", f"No se pudo iniciar el sistema:\n{e}")
             self.stop_system()
 
     def _start_bot_process(self):
