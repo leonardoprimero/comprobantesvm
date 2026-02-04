@@ -87,6 +87,7 @@ def main():
         "--workpath", str(BUILD / "pyinstaller"),
         "--distpath", str(DIST),
         "--name", "Launcher",
+        "--collect-all", "customtkinter",
         "launcher.py"
     ])
 
