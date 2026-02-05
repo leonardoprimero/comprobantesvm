@@ -1847,15 +1847,32 @@ class SystemLauncher(ctk.CTk):
                     if not hasattr(self, "lbl_processed"):
                         time.sleep(5)
                         continue
-                    # Leer archivo log json
-                    with open(get_usage_log_path(), 'r') as f:
-                        data = json.load(f)
-                        resumen = data.get('resumen', {})
+                    
+                    # Actualizar costo desde el log de billing
+                    try:
+                        with open(get_usage_log_path(), 'r') as f:
+                            data = json.load(f)
+                            resumen = data.get('resumen', {})
+                            self.lbl_cost_usd.configure(text=f"${resumen.get('costo_mostrado_usd', 0):.4f} USD")
+                    except:
+                        pass
+                    
+                    # Actualizar contador y monto desde el acumulador de sesión (reiniciable)
+                    try:
+                        accumulator = get_accumulator()
+                        count = accumulator.get_count()
+                        total = accumulator.get_total_amount()
                         
-                        self.lbl_processed.configure(text=f"{resumen.get('total_procesados', 0)}")
-                        self.lbl_cost_usd.configure(text=f"${resumen.get('costo_mostrado_usd', 0):.4f} USD")
-                except:
-                    pass
+                        self.lbl_processed.configure(text=f"{count}")
+                        self.lbl_total_amount.configure(text=f"${total:,.2f}")
+                        
+                        # Refrescar la tabla de datos acumulados (usar after para thread-safety)
+                        self.after(0, self.refresh_accumulator_display)
+                    except Exception as e:
+                        logging.debug(f"Error actualizando acumulador: {e}")
+                        
+                except Exception as e:
+                    logging.debug(f"Error en update_stats_loop: {e}")
             time.sleep(5)
 
     def open_excel_file(self):
