@@ -111,10 +111,11 @@ const puppeteerConfig = {
         '--disable-extensions'
     ],
 };
-// Disabled: Use Puppeteer's bundled browser instead of system browser
-// if (CHROMIUM_PATH) {
-//     puppeteerConfig.executablePath = CHROMIUM_PATH;
-// }
+// Use the bundled Chromium if CHROMIUM_PATH is provided
+if (CHROMIUM_PATH && fs.existsSync(CHROMIUM_PATH)) {
+    puppeteerConfig.executablePath = CHROMIUM_PATH;
+    console.log(`🔧 Usando Chromium personalizado: ${CHROMIUM_PATH}`);
+}
 
 const client = new Client({
     authStrategy: new LocalAuth(authOptions),
