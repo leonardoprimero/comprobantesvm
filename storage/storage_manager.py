@@ -1,11 +1,13 @@
 """
 Storage Manager - Orquestador de almacenamiento.
 Decide dónde guardar según configuración: Excel, Sheets, o ambos.
+También agrega los datos al acumulador de sesión.
 """
 import logging
 from typing import Optional
 from storage.excel_storage import guardar_en_excel
 from storage.sheets_storage import guardar_en_sheets
+from storage.session_accumulator import get_accumulator
 from app.validator import identificar_cuenta_destino
 from app.paths import resolve_appdata_path
 
@@ -106,5 +108,28 @@ def guardar_transferencia(
             resultados["message"] = "No hay destinos de almacenamiento habilitados"
     
     resultados["cuenta_destino"] = nombre_cuenta_destino
+    
+    # Agregar al acumulador de sesión (siempre, para ver en el dashboard)
+    try:
+        accumulator = get_accumulator()
+        accumulator.add_entry({
+            'archivo': datos.get('archivo', 'Sin nombre'),
+            'fuente': 'WhatsApp' if whatsapp_from else 'Carpeta',
+            'fecha_operacion': datos.get('fecha_deposito', ''),
+            'monto': datos.get('monto_numerico', datos.get('monto', 0)),
+            'banco_origen': datos.get('banco_origen', datos.get('emisor_nombre', '')),
+            'banco_destino': datos.get('banco_destino', ''),
+            'cbu_origen': datos.get('emisor_cbu', ''),
+            'cbu_destino': datos.get('receptor_cbu', ''),
+            'ordenante': datos.get('ordenante', datos.get('emisor_nombre', '')),
+            'receptor_nombre': datos.get('receptor_nombre', ''),
+            'receptor_cuit': datos.get('receptor_cuit', ''),
+            'numero_comprobante': datos.get('numero_comprobante', ''),
+            'whatsapp_from': whatsapp_from,
+            'cuenta_destino': nombre_cuenta_destino
+        })
+        logger.info(f"Comprobante agregado al acumulador de sesión")
+    except Exception as e:
+        logger.error(f"Error agregando al acumulador: {e}")
     
     return resultados

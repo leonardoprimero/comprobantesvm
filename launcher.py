@@ -26,6 +26,7 @@ from app.paths import (
     resolve_appdata_path,
     get_app_data_dir,
 )
+from storage.session_accumulator import get_accumulator, SessionAccumulator
 
 # Configurar apariencia
 ctk.set_appearance_mode("Light")
@@ -722,10 +723,10 @@ class SystemLauncher(ctk.CTk):
         self.btn_help.pack(side="left", padx=(10, 0))
 
         # Stats cards - diseño más impactante
-        stats_card = self.create_card(left, "Resumen del día")
+        stats_card = self.create_card(left, "Resumen de Sesión")
         stats_card.pack(fill="x", pady=(0, 14))
         stats_row = ctk.CTkFrame(stats_card, fg_color="transparent")
-        stats_row.pack(fill="x", padx=20, pady=(0, 20))
+        stats_row.pack(fill="x", padx=20, pady=(0, 10))
         stats_row.grid_columnconfigure(0, weight=1)
         stats_row.grid_columnconfigure(1, weight=1)
 
@@ -745,21 +746,42 @@ class SystemLauncher(ctk.CTk):
             text_color=COLOR_TEXT_SECONDARY
         ).pack(pady=(0, 16))
 
-        stat_b = ctk.CTkFrame(stats_row, fg_color=COLOR_BG_DARK, corner_radius=16)
+        stat_b = ctk.CTkFrame(stats_row, fg_color=COLOR_SUCCESS_SOFT, corner_radius=16)
         stat_b.grid(row=0, column=1, sticky="nsew", padx=(8, 0), pady=4)
-        self.lbl_cost_usd = ctk.CTkLabel(
+        self.lbl_total_amount = ctk.CTkLabel(
             stat_b,
             text="$0.00",
             font=self.font_stat,
-            text_color=COLOR_TEXT
+            text_color=COLOR_SUCCESS
         )
-        self.lbl_cost_usd.pack(pady=(20, 4))
+        self.lbl_total_amount.pack(pady=(20, 4))
         ctk.CTkLabel(
             stat_b,
-            text="Costo USD",
+            text="Total Acumulado",
             font=self.font_stat_label,
-            text_color=COLOR_MUTED
+            text_color=COLOR_TEXT_SECONDARY
         ).pack(pady=(0, 16))
+
+        # Segunda fila de stats (Costo USD)
+        stats_row2 = ctk.CTkFrame(stats_card, fg_color="transparent")
+        stats_row2.pack(fill="x", padx=20, pady=(0, 20))
+        stat_c = ctk.CTkFrame(stats_row2, fg_color=COLOR_BG_DARK, corner_radius=16)
+        stat_c.pack(fill="x", pady=4)
+        stat_c_inner = ctk.CTkFrame(stat_c, fg_color="transparent")
+        stat_c_inner.pack(fill="x", padx=16, pady=12)
+        ctk.CTkLabel(
+            stat_c_inner,
+            text="Costo API:",
+            font=self.font_body,
+            text_color=COLOR_MUTED
+        ).pack(side="left")
+        self.lbl_cost_usd = ctk.CTkLabel(
+            stat_c_inner,
+            text="$0.00 USD",
+            font=self.font_body,
+            text_color=COLOR_TEXT
+        )
+        self.lbl_cost_usd.pack(side="right")
 
         # Pasos rápidos - más compacto
         steps_card = self.create_card(left, "Inicio rápido")
@@ -833,6 +855,72 @@ class SystemLauncher(ctk.CTk):
         )
         self.btn_restart_qr.pack(padx=20, pady=(0, 20), fill="x")
 
+        # Tarjeta de Datos Acumulados con tabla
+        accumulated_card = self.create_card(right, "Datos Acumulados")
+        accumulated_card.pack(fill="x", pady=(0, 14))
+        
+        # Tabla de últimos comprobantes
+        table_header = ctk.CTkFrame(accumulated_card, fg_color=COLOR_ACCENT, corner_radius=8)
+        table_header.pack(fill="x", padx=20, pady=(0, 2))
+        header_cols = ctk.CTkFrame(table_header, fg_color="transparent")
+        header_cols.pack(fill="x", padx=8, pady=6)
+        header_cols.grid_columnconfigure(0, weight=1)
+        header_cols.grid_columnconfigure(1, weight=2)
+        header_cols.grid_columnconfigure(2, weight=1)
+        ctk.CTkLabel(header_cols, text="Fecha", font=self.font_small, text_color="white").grid(row=0, column=0, sticky="w")
+        ctk.CTkLabel(header_cols, text="Banco", font=self.font_small, text_color="white").grid(row=0, column=1, sticky="w")
+        ctk.CTkLabel(header_cols, text="Monto", font=self.font_small, text_color="white").grid(row=0, column=2, sticky="e")
+        
+        # Contenedor de filas de la tabla
+        self.table_rows_frame = ctk.CTkFrame(accumulated_card, fg_color=COLOR_BG_DARK, corner_radius=8)
+        self.table_rows_frame.pack(fill="x", padx=20, pady=(0, 10))
+        self.lbl_no_data = ctk.CTkLabel(
+            self.table_rows_frame,
+            text="Sin comprobantes aún",
+            font=self.font_small,
+            text_color=COLOR_MUTED
+        )
+        self.lbl_no_data.pack(pady=20)
+        
+        # Botones de exportación
+        export_row = ctk.CTkFrame(accumulated_card, fg_color="transparent")
+        export_row.pack(fill="x", padx=20, pady=(0, 10))
+        self.btn_export_excel = ctk.CTkButton(
+            export_row,
+            text="📤 Exportar a Excel",
+            command=self.export_accumulated_data,
+            fg_color=COLOR_ACCENT,
+            hover_color=COLOR_ACCENT_DARK,
+            corner_radius=12,
+            height=38,
+            font=self.font_body
+        )
+        self.btn_export_excel.pack(side="left", fill="x", expand=True, padx=(0, 8))
+        
+        self.btn_reset_session = ctk.CTkButton(
+            export_row,
+            text="🔄 Reiniciar",
+            command=self.reset_session,
+            fg_color=COLOR_WARNING_SOFT,
+            text_color=COLOR_WARNING,
+            hover_color=COLOR_DANGER_SOFT,
+            corner_radius=12,
+            height=38,
+            font=self.font_body,
+            width=100
+        )
+        self.btn_reset_session.pack(side="left")
+        
+        # Info de última exportación
+        self.lbl_last_export = ctk.CTkLabel(
+            accumulated_card,
+            text="",
+            font=self.font_tiny,
+            text_color=COLOR_MUTED
+        )
+        self.lbl_last_export.pack(anchor="w", padx=20, pady=(0, 16))
+
+        # Tarjeta de accesos rápidos a Excel
         excel_card = self.create_card(right, "Archivo Excel")
         excel_card.pack(fill="x")
         self.lbl_excel_path = ctk.CTkLabel(
@@ -872,6 +960,9 @@ class SystemLauncher(ctk.CTk):
             width=100
         )
         self.btn_open_data.pack(side="left")
+        
+        # Inicializar la vista del acumulador
+        self.refresh_accumulator_display()
 
     def setup_config(self):
         self.scroll_config = ctk.CTkScrollableFrame(self.tab_config, fg_color="transparent")
@@ -1167,8 +1258,194 @@ class SystemLauncher(ctk.CTk):
         self.txt_logs.insert("end", f"[{timestamp}] {message}\n")
         self.txt_logs.see("end")
         self.txt_logs.configure(state="disabled")
-        if hasattr(self, "lbl_last_activity"):
-            self.lbl_last_activity.configure(text=f"Ultima actividad: {timestamp}")
+
+    def refresh_accumulator_display(self):
+        """Actualiza la tabla de comprobantes acumulados y los contadores."""
+        try:
+            accumulator = get_accumulator()
+            
+            # Actualizar contadores
+            count = accumulator.get_count()
+            total = accumulator.get_total_amount()
+            
+            if hasattr(self, 'lbl_processed'):
+                self.lbl_processed.configure(text=str(count))
+            
+            if hasattr(self, 'lbl_total_amount'):
+                # Formatear monto con separadores de miles
+                formatted_total = f"${total:,.2f}"
+                self.lbl_total_amount.configure(text=formatted_total)
+            
+            # Actualizar tabla de comprobantes
+            if hasattr(self, 'table_rows_frame'):
+                # Limpiar filas existentes
+                for widget in self.table_rows_frame.winfo_children():
+                    widget.destroy()
+                
+                entries = accumulator.get_recent_entries(8)
+                
+                if not entries:
+                    self.lbl_no_data = ctk.CTkLabel(
+                        self.table_rows_frame,
+                        text="Sin comprobantes aún",
+                        font=self.font_small,
+                        text_color=COLOR_MUTED
+                    )
+                    self.lbl_no_data.pack(pady=20)
+                else:
+                    for i, entry in enumerate(entries):
+                        row_bg = COLOR_CARD if i % 2 == 0 else COLOR_BG_DARK
+                        row_frame = ctk.CTkFrame(self.table_rows_frame, fg_color=row_bg, corner_radius=0)
+                        row_frame.pack(fill="x")
+                        
+                        row_inner = ctk.CTkFrame(row_frame, fg_color="transparent")
+                        row_inner.pack(fill="x", padx=8, pady=4)
+                        row_inner.grid_columnconfigure(0, weight=1)
+                        row_inner.grid_columnconfigure(1, weight=2)
+                        row_inner.grid_columnconfigure(2, weight=1)
+                        
+                        # Fecha formateada
+                        try:
+                            ts = entry.get('timestamp', '')
+                            if ts:
+                                dt = datetime.fromisoformat(ts)
+                                fecha_str = dt.strftime("%d/%m %H:%M")
+                            else:
+                                fecha_str = "--"
+                        except:
+                            fecha_str = "--"
+                        
+                        ctk.CTkLabel(
+                            row_inner,
+                            text=fecha_str,
+                            font=self.font_tiny,
+                            text_color=COLOR_TEXT_SECONDARY
+                        ).grid(row=0, column=0, sticky="w")
+                        
+                        banco = entry.get('banco_origen', 'Sin banco')[:15]
+                        ctk.CTkLabel(
+                            row_inner,
+                            text=banco,
+                            font=self.font_tiny,
+                            text_color=COLOR_TEXT
+                        ).grid(row=0, column=1, sticky="w")
+                        
+                        monto = entry.get('monto', 0)
+                        ctk.CTkLabel(
+                            row_inner,
+                            text=f"${monto:,.2f}",
+                            font=self.font_tiny,
+                            text_color=COLOR_SUCCESS
+                        ).grid(row=0, column=2, sticky="e")
+            
+            # Actualizar info de última exportación
+            if hasattr(self, 'lbl_last_export'):
+                history = accumulator.get_export_history(1)
+                if history:
+                    last = history[0]
+                    try:
+                        dt = datetime.fromisoformat(last.get('timestamp', ''))
+                        fecha_str = dt.strftime("%d/%m/%Y %H:%M")
+                        self.lbl_last_export.configure(text=f"Última exportación: {fecha_str}")
+                    except:
+                        self.lbl_last_export.configure(text="")
+                else:
+                    self.lbl_last_export.configure(text="")
+                    
+        except Exception as e:
+            logging.error(f"Error actualizando acumulador: {e}")
+
+    def export_accumulated_data(self):
+        """Exporta los datos acumulados a un archivo Excel."""
+        try:
+            accumulator = get_accumulator()
+            
+            if accumulator.get_count() == 0:
+                messagebox.showinfo(
+                    "Exportar a Excel",
+                    "No hay comprobantes para exportar."
+                )
+                return
+            
+            result = accumulator.export_to_excel()
+            
+            if result.get('success'):
+                filepath = result.get('filepath', '')
+                count = result.get('count', 0)
+                total = result.get('total_amount', 0)
+                
+                self.log_message(f"Exportados {count} comprobantes (${total:,.2f}) a Excel")
+                self.refresh_accumulator_display()
+                
+                # Preguntar si abrir el archivo
+                if messagebox.askyesno(
+                    "Exportación Exitosa",
+                    f"Se exportaron {count} comprobantes.\n"
+                    f"Total: ${total:,.2f}\n\n"
+                    f"¿Desea abrir el archivo?"
+                ):
+                    if sys.platform == "win32":
+                        os.startfile(filepath)
+                    elif sys.platform == "darwin":
+                        subprocess.run(["open", filepath])
+                    else:
+                        subprocess.run(["xdg-open", filepath])
+            else:
+                error = result.get('error', 'Error desconocido')
+                messagebox.showerror("Error", f"Error al exportar: {error}")
+                
+        except Exception as e:
+            logging.error(f"Error en export_accumulated_data: {e}")
+            messagebox.showerror("Error", f"Error al exportar: {e}")
+
+    def reset_session(self):
+        """Reinicia la sesión, exportando primero los datos actuales."""
+        try:
+            accumulator = get_accumulator()
+            count = accumulator.get_count()
+            
+            if count == 0:
+                messagebox.showinfo(
+                    "Reiniciar Sesión",
+                    "No hay datos para reiniciar."
+                )
+                return
+            
+            total = accumulator.get_total_amount()
+            
+            # Confirmar con el usuario
+            if not messagebox.askyesno(
+                "Reiniciar Sesión",
+                f"Hay {count} comprobantes acumulados (${total:,.2f}).\n\n"
+                f"Se exportarán a Excel antes de reiniciar.\n\n"
+                f"¿Desea continuar?"
+            ):
+                return
+            
+            result = accumulator.reset(export_first=True)
+            
+            if result.get('success'):
+                export_result = result.get('export_result', {})
+                filepath = export_result.get('filepath', '') if export_result else ''
+                prev_count = result.get('previous_count', 0)
+                prev_total = result.get('previous_total', 0)
+                
+                self.log_message(f"Sesión reiniciada: {prev_count} comprobantes (${prev_total:,.2f}) exportados")
+                self.refresh_accumulator_display()
+                
+                messagebox.showinfo(
+                    "Sesión Reiniciada",
+                    f"Se exportaron {prev_count} comprobantes.\n"
+                    f"Total: ${prev_total:,.2f}\n\n"
+                    f"El contador ha sido reiniciado."
+                )
+            else:
+                error = result.get('error', 'Error desconocido')
+                messagebox.showerror("Error", f"Error al reiniciar: {error}")
+                
+        except Exception as e:
+            logging.error(f"Error en reset_session: {e}")
+            messagebox.showerror("Error", f"Error al reiniciar: {e}")
 
     def start_system(self):
         if self.is_running: return
