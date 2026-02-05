@@ -76,6 +76,9 @@ class SessionAccumulator:
         Args:
             data: Diccionario con los datos del comprobante
         """
+        # Recargar desde disco antes de agregar para detectar resets
+        self._load_from_disk()
+        
         entry = {
             'timestamp': datetime.now().isoformat(),
             'archivo': data.get('archivo', 'Sin nombre'),
