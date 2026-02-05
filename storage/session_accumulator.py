@@ -111,6 +111,10 @@ class SessionAccumulator:
                 return 0.0
         return 0.0
     
+    def reload(self) -> None:
+        """Recarga los datos desde disco (para sincronizar entre procesos)."""
+        self._load_from_disk()
+    
     def get_count(self) -> int:
         """Retorna la cantidad de comprobantes en la sesión."""
         return len(self.entries)

@@ -1860,6 +1860,7 @@ class SystemLauncher(ctk.CTk):
                     # Actualizar contador y monto desde el acumulador de sesión (reiniciable)
                     try:
                         accumulator = get_accumulator()
+                        accumulator.reload()  # Recargar desde disco para sincronizar con API
                         count = accumulator.get_count()
                         total = accumulator.get_total_amount()
                         
