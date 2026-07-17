@@ -339,14 +339,25 @@ class SystemLauncher(ctk.CTk):
         label.pack(anchor="w", padx=20, pady=(18, 10))
         return card
 
+    @staticmethod
+    def _decode_secret(value):
+        """Decodifica valores ofuscados como 'enc:<base64>' en config.json."""
+        if value and value.startswith("enc:"):
+            import base64
+            try:
+                return base64.b64decode(value[4:] + "==").decode("utf-8")
+            except Exception:
+                return value
+        return value
+
     def get_openai_key(self):
         if hasattr(self, "entry_openai_key"):
             value = self.entry_openai_key.get().strip()
             if value:
-                return value
+                return self._decode_secret(value)
         config_value = self.config.get("openai_api_key", "").strip()
         if config_value:
-            return config_value
+            return self._decode_secret(config_value)
         return os.environ.get("OPENAI_API_KEY", "")
 
     def get_config_issues(self):
@@ -1544,6 +1555,18 @@ class SystemLauncher(ctk.CTk):
         bot_env = os.environ.copy()
         bot_env["API_URL"] = "http://localhost:8000"
         bot_env["WWEBJS_AUTH_DIR"] = os.path.join(get_app_data_dir(), "wwebjs_auth")
+        bot_env["APP_DATA_DIR"] = get_app_data_dir()
+        # Clave interna para autenticarse contra la API local.
+        # En config.json puede estar ofuscada como "enc:<base64>".
+        _api_key = (self.config or {}).get("api_key", "")
+        if _api_key.startswith("enc:"):
+            import base64 as _b64
+            try:
+                _api_key = _b64.b64decode(_api_key[4:] + "==").decode("utf-8")
+            except Exception:
+                pass
+        if _api_key:
+            bot_env["API_KEY"] = _api_key
         
         # Ensure QR directory exists
         qr_dir = os.path.dirname(self.qr_path)
@@ -1562,11 +1585,12 @@ class SystemLauncher(ctk.CTk):
         node_path = self.get_node_path()
         bot_cmd = [node_path, bot_entry]
         
-        # Flags para ocultar ventana en Windows
+        # Flags para ocultar ventana en Windows + grupo propio para poder
+        # enviarle CTRL_BREAK (cierre ordenado que preserva la sesión)
         creation_flags = 0
         if sys.platform == "win32":
-            creation_flags = 0x08000000  # CREATE_NO_WINDOW
-            
+            creation_flags = 0x08000000 | 0x00000200  # CREATE_NO_WINDOW | CREATE_NEW_PROCESS_GROUP
+
         self.process_bot = subprocess.Popen(bot_cmd,
                                           stdout=subprocess.PIPE, 
                                           stderr=subprocess.PIPE,
@@ -1587,10 +1611,8 @@ class SystemLauncher(ctk.CTk):
         self.log_message("♻️ Reiniciando servicio de WhatsApp...")
         self.btn_restart_qr.configure(state="disabled")
         
-        # Kill existing
-        if self.process_bot:
-            self.kill_process_tree(self.process_bot.pid)
-            self.process_bot = None
+        # Cierre ordenado para no perder la sesión de WhatsApp
+        self._stop_bot_gracefully()
             
         # Clear QR
         if os.path.exists(self.qr_path):
@@ -1599,19 +1621,11 @@ class SystemLauncher(ctk.CTk):
              except:
                 pass
         
-        # CLEAR SESSION (Hard Reset)
-        try:
-            # Esperar a que el proceso libere los archivos
-            import time
-            time.sleep(2.0)
-            
-            auth_dir = os.path.join(get_app_data_dir(), "wwebjs_auth")
-            if os.path.exists(auth_dir):
-                self.log_message(f"🧹 Limpiando sesión anterior en: {auth_dir}")
-                import shutil
-                shutil.rmtree(auth_dir)
-        except Exception as e:
-            self.log_message(f"⚠️ No se pudo limpiar sesión: {e}")
+        # NO borrar la sesión guardada: reiniciar el servicio no debe desvincular
+        # la cuenta de WhatsApp. Si el usuario quiere desvincular, lo hace desde
+        # el celular (Dispositivos vinculados) y el bot pedirá QR solo.
+        import time
+        time.sleep(2.0)
 
         self.update_qr_image()
         self.update_whatsapp_status("Reiniciando...", COLOR_WARNING)
@@ -1625,17 +1639,39 @@ class SystemLauncher(ctk.CTk):
         # Re-enable button after a short delay
         self.after(5000, lambda: self.btn_restart_qr.configure(state="normal"))
 
+    def _stop_bot_gracefully(self, timeout=15):
+        """Pide al bot cierre ordenado (archivo-bandera) para preservar la sesión."""
+        proc = self.process_bot
+        if not proc:
+            return
+        flag = os.path.join(get_app_data_dir(), "bot_shutdown.flag")
+        try:
+            with open(flag, "w") as f:
+                f.write("stop")
+            proc.wait(timeout=timeout)
+            self.log_message("Bot cerrado ordenadamente (sesión preservada).")
+        except Exception:
+            try:
+                self.kill_process_tree(proc.pid)
+            except Exception:
+                pass
+        finally:
+            try:
+                if os.path.exists(flag):
+                    os.remove(flag)
+            except Exception:
+                pass
+        self.process_bot = None
+
     def stop_system(self):
         self.is_running = False
         self.log_message("⚠️ Deteniendo sistema...")
-        
+
         if self.process_api:
             self.kill_process_tree(self.process_api.pid)
             self.process_api = None
-            
-        if self.process_bot:
-            self.kill_process_tree(self.process_bot.pid)
-            self.process_bot = None
+
+        self._stop_bot_gracefully()
 
         self.update_whatsapp_status("Desconectado", COLOR_DANGER)
         if hasattr(self, "btn_restart_qr"):
@@ -1648,18 +1684,16 @@ class SystemLauncher(ctk.CTk):
         self.update_config_status()
 
     def get_api_command(self):
-        if getattr(sys, "frozen", False):
-            api_exe = os.path.join(get_resource_dir(), "Api.exe")
-            if os.path.exists(api_exe):
-                return [api_exe]
+        api_exe = os.path.join(get_resource_dir(), "Api.exe")
+        if os.path.exists(api_exe):
+            return [api_exe]
         return [sys.executable, "run.py"]
 
     def get_node_path(self):
-        # 1. Check embedded Node (frozen)
-        if getattr(sys, "frozen", False):
-            node_exe = os.path.join(get_resource_dir(), "node", "node.exe")
-            if os.path.exists(node_exe):
-                return node_exe
+        # 1. Check embedded Node (junto a los recursos)
+        node_exe = os.path.join(get_resource_dir(), "node", "node.exe")
+        if os.path.exists(node_exe):
+            return node_exe
         
         # 2. Check if node is in PATH
         import shutil
@@ -1683,11 +1717,10 @@ class SystemLauncher(ctk.CTk):
         return "node"
 
     def get_chromium_path(self):
-        # 1. Check embedded Chromium (frozen/dev)
-        if getattr(sys, "frozen", False):
-            chrome_exe = os.path.join(get_resource_dir(), "chromium", "chrome.exe")
-            if os.path.exists(chrome_exe):
-                return chrome_exe
+        # 1. Check embedded Chromium (junto a los recursos)
+        chrome_exe = os.path.join(get_resource_dir(), "chromium", "chrome.exe")
+        if os.path.exists(chrome_exe):
+            return chrome_exe
         
         # 2. Check System Chrome/Edge (common paths)
         common_paths = [
@@ -1818,26 +1851,39 @@ class SystemLauncher(ctk.CTk):
             if os.path.exists(self.qr_path):
                 mtime = os.path.getmtime(self.qr_path)
                 if mtime != self.qr_last_mtime:
-                    # Keep strong reference to PIL image
-                    self._pil_qr_image = Image.open(self.qr_path)
-                    self._pil_qr_image = self._pil_qr_image.resize((240, 240))
-                    # Keep strong reference to CTkImage
-                    self.qr_image = ctk.CTkImage(
-                        light_image=self._pil_qr_image, 
-                        dark_image=self._pil_qr_image, 
-                        size=(240, 240)
-                    )
-                    self.lbl_qr.configure(image=self.qr_image, text="")
+                    from PIL import ImageTk
+                    pil = Image.open(self.qr_path).resize((240, 240))
+                    new_img = ImageTk.PhotoImage(pil, master=self.lbl_qr)
+                    # Limpiar la imagen del label ANTES de soltar la vieja:
+                    # si la PhotoImage anterior muere con el label apuntándola,
+                    # el label queda inutilizable (TclError "pyimage doesn't exist")
+                    self.lbl_qr._label.configure(image="", text="")
+                    self.lbl_qr._label.configure(image=new_img)
+                    self.lbl_qr._image = new_img
+                    self.qr_image = new_img
+                    self._pil_qr_image = pil
                     self.qr_last_mtime = mtime
                     self.update_whatsapp_status("Esperando escaneo", COLOR_WARNING)
             else:
-                if hasattr(self, "qr_image"):
+                if self.qr_image is not None:
+                    # Primero desasociar del label, después soltar la referencia
+                    self.lbl_qr._label.configure(image="")
+                    self.lbl_qr._image = None
                     self.qr_image = None
                     self._pil_qr_image = None
-                self.lbl_qr.configure(image=None, text="Esperando QR...", text_color=COLOR_MUTED)
+                    self.qr_last_mtime = 0
+                    self.lbl_qr._label.configure(
+                        text="Esperando QR...", fg=COLOR_MUTED
+                    )
         except Exception as e:
-            # Silently ignore image errors to prevent UI crash
-            pass
+            # No romper la UI, pero dejar rastro para diagnóstico
+            try:
+                import traceback
+                print(f"update_qr_image fallo: {type(e).__name__}: {e}", flush=True)
+                print(traceback.format_exc(), flush=True)
+                print(f"  lbl_qr={self.lbl_qr} interp_self={id(self.tk)} interp_lbl={id(self.lbl_qr.tk)}", flush=True)
+            except Exception:
+                pass
         
     def update_stats_loop(self):
         """Actualiza las estadísticas de costos cada 5 segundos."""

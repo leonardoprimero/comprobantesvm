@@ -63,6 +63,9 @@ def resolve_appdata_path(path: str, fallback_name: str = "") -> str:
 
 def get_resource_dir() -> str:
     """Ruta base donde viven los recursos del programa."""
+    override = os.environ.get("RESOURCE_DIR")
+    if override:
+        return override
     if getattr(sys, "frozen", False):
         return os.path.dirname(sys.executable)
     return str(Path(__file__).resolve().parents[1])

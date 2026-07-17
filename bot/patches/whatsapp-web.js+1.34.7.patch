@@ -1,0 +1,21 @@
+diff --git a/node_modules/whatsapp-web.js/src/util/Injected/Utils.js b/node_modules/whatsapp-web.js/src/util/Injected/Utils.js
+index 540078a..36065bc 100644
+--- a/node_modules/whatsapp-web.js/src/util/Injected/Utils.js
++++ b/node_modules/whatsapp-web.js/src/util/Injected/Utils.js
+@@ -803,6 +803,16 @@ exports.LoadUtils = () => {
+     window.WWebJS.getMessageModel = (message) => {
+         const msg = message.serialize();
+ 
++        // WA Web >= 2.3000.1043159177 renamed id._serialized to $1 in serialized output
++        if (msg.id && !msg.id._serialized) {
++            const remote =
++                typeof msg.id.remote === 'object'
++                    ? msg.id.remote._serialized
++                    : msg.id.remote;
++            msg.id._serialized =
++                msg.id.$1 || `${msg.id.fromMe}_${remote}_${msg.id.id}`;
++        }
++
+         const { findLinks } = window.require('WALinkify');
+ 
+         msg.isEphemeral = message.isEphemeral;
